@@ -7,18 +7,18 @@ const server = express();
 const bot = new TelegramBot(TOKEN, { polling: true } );
 
 const port = process.env.PORT || 80;
-const gameName = "for you(game)";
+const gameName = "dino";
 
 const queries = {};
 
-bot.onText(/help/, (msg) => bot.sendMessage(msg.from.id, "bu botni siz uchun @ismoilov299 yaratdi o'yini boshlash uchun  /game commandasini yuboring"));
+bot.onText(/help/, (msg) => bot.sendMessage(msg.from.id, "This bot implements a T-Rex jumping game. Say /game if you want to play."));
 bot.onText(/start|game/, (msg) => bot.sendGame(msg.from.id, gameName));
 bot.on("callback_query", function (query) {
     if (query.game_short_name !== gameName) {
         bot.answerCallbackQuery(query.id, "Sorry, '" + query.game_short_name + "' is not available.");
     } else {
         queries[query.id] = query;
-        let gameurl = "https://stormy-inlet-66844.herokuapp.com/index.html?id="+query.id;
+        let gameurl = "https://trexgame.herokuapp.com/index.html?id="+query.id;
         bot.answerCallbackQuery({
             callback_query_id: query.id,
             url: gameurl
